@@ -90,7 +90,7 @@ public class SimulationUI extends JPanel{
 		 * 
 		 */
 		private static final long serialVersionUID = 3983835989954582924L;
-		private static final int RUN_SPEED = 100;
+		private static final int RUN_SPEED = 1;
 		private final Timer timer;
 		private boolean mouseClicked=false;
 		private Agent curPlanet;
@@ -155,12 +155,6 @@ public class SimulationUI extends JPanel{
 	    public void step(){
 	    	System.out.println("STEP");
 	    	world.takeSteps();
-	    	try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	    	repaint();
 	    }
         @Override

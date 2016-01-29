@@ -55,33 +55,34 @@ public class Planet implements Agent{
         double[]x_temp=new double[n];
         
         double[]x=new double[5];
-        int dt=1;
+        double dt=0.1;
         x[0]=0;
         x[1]=p.getX();
         x[2]=p.getY();
         x[3]=p.getxVel();
         x[4]=p.getyVel();
-        f = equations(x);
-        for (int i = 0; i < n; i++) {
-            k1[i] = dt * f[i];
-            x_temp[i] = x[i] + k1[i] / 2;
-        }
-        f = equations(x_temp);
-        for (int i = 0; i < n; i++) {
-            k2[i] = dt * f[i];
-            x_temp[i] = x[i] + k2[i] / 2;
-        }
-        f = equations(x_temp);
-        for (int i = 0; i < n; i++) {
-            k3[i] = dt * f[i];
-            x_temp[i] = x[i] + k3[i];
-        }
-        f = equations(x_temp);
-        for (int i = 0; i < n; i++)
-            k4[i] = dt * f[i];
-        for (int i = 0; i < n; i++)
-            x[i] += (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6;
-        //x[0]=time???
+        x = Kepler.step(x, dt);
+//        f = equations(x);
+//        for (int i = 0; i < n; i++) {
+//            k1[i] = dt * f[i];
+//            x_temp[i] = x[i] + k1[i] / 2;
+//        }
+//        f = equations(x_temp);
+//        for (int i = 0; i < n; i++) {
+//            k2[i] = dt * f[i];
+//            x_temp[i] = x[i] + k2[i] / 2;
+//        }
+//        f = equations(x_temp);
+//        for (int i = 0; i < n; i++) {
+//            k3[i] = dt * f[i];
+//            x_temp[i] = x[i] + k3[i];
+//        }
+//        f = equations(x_temp);
+//        for (int i = 0; i < n; i++)
+//            k4[i] = dt * f[i];
+//        for (int i = 0; i < n; i++)
+//            x[i] += (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6;
+//        //x[0]=time???
         p.setX(x[1]);
         p.setY(x[2]);
         p.setxVel(x[3]);

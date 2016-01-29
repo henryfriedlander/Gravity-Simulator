@@ -20,12 +20,15 @@ public class Simulation extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	public static  ArrayList<Agent>planets=new ArrayList<Agent>();
-	
+	private static final double G_m1_plus_m2 = 4.0 * Math.PI * Math.PI;
 	public Simulation() {
-		planets.add(new Planet(1000,0,0,0,0,this));
-		planets.add(new Planet(8,60,0,0,0,this));
-		planets.add(new Planet(10,60,30,0,0,this));
-		planets.add(new Planet(10,-20,30,0,0,this));
+		double r_a = 100;
+		double eccentricity = .0167;
+		double a = r_a / (1 + eccentricity);
+		double T = Math.pow(a, 1.5);
+		double vy0 = Math.sqrt(G_m1_plus_m2 * (2.0 / r_a - 1.0 / a));
+		
+		planets.add(new Planet(1000, r_a, 0, 0, vy0, this));
 	}
 	public void takeSteps(){
 		for(Agent p:planets){
