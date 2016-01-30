@@ -9,6 +9,7 @@ public class Planet implements Agent{
 	Position p;
 	Simulation g;
 	ArrayList<Point>points=new ArrayList<Point>();
+
     final static double pi=Math.PI;
     final static double G_m1_plus_m2 = 4 * pi * pi;
 

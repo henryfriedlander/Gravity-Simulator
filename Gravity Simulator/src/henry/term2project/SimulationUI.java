@@ -109,6 +109,8 @@ public class SimulationUI extends JPanel{
 		}
 		@Override
 		public void paintComponent(Graphics oldg){
+			this.addMouseListener(this);
+			this.addMouseMotionListener(this);
 			Graphics2D g = (Graphics2D)oldg;
 			
 			g.setRenderingHint(
@@ -189,10 +191,13 @@ public class SimulationUI extends JPanel{
                     mouseClicked=true;
                 }
             }
-            XplanetPos=(int)curPlanet.getPosition().getX();
-            YplanetPos=(int)curPlanet.getPosition().getY();
-            initXpos=e.getX();
-            initYpos=e.getY();
+	        if(curPlanet!=null){
+	        	System.out.println("curplanet");
+	            XplanetPos=(int)curPlanet.getPosition().getX();
+	            YplanetPos=(int)curPlanet.getPosition().getY();
+	            initXpos=e.getX();
+	            initYpos=e.getY();
+            }
         }
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -203,11 +208,12 @@ public class SimulationUI extends JPanel{
         @Override
         public void mouseDragged(MouseEvent e) {
             // TODO Auto-generated method stub
-            if(mouseClicked){
+        	if(curPlanet!=null){
                 Position pos=curPlanet.getPosition();
+                System.out.println("dragging");
                 pos.setX(e.getX()-initXpos+XplanetPos);
-                pos.setX(e.getY()-initYpos+YplanetPos);
-            }
+                pos.setY(e.getY()-initYpos+YplanetPos);
+        	}
         }
         @Override
         public void mouseMoved(MouseEvent arg0) {
