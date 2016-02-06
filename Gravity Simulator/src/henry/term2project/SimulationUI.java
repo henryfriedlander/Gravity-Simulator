@@ -181,18 +181,20 @@ public class SimulationUI extends JPanel{
         @Override
         public void mousePressed(MouseEvent e) {
             // TODO Auto-generated method stub
-            System.out.println("here");
+            System.out.println("here "+e.getX()+" "+e.getY());
+            
             for(Agent p:world.getPlanets()){
                 Position pos=p.getPosition();
-                if(inCircle((int)pos.getX(),(int)pos.getY(),e.getX(),e.getY(),15)){
-                    p=curPlanet;
+                if(inCircle((int)pos.getX()+Constants.screenX/2,(int)pos.getY()+Constants.screenY/2,e.getX(),e.getY(),15)){
+                    System.out.println(true);
+                	curPlanet=p;
                     mouseClicked=true;
                 }
             }
 	        if(curPlanet!=null){
 	        	System.out.println("curplanet");
-	            XplanetPos=(int)curPlanet.getPosition().getX();
-	            YplanetPos=(int)curPlanet.getPosition().getY();
+	            XplanetPos=(int)curPlanet.getPosition().getX()+Constants.screenX/2;
+	            YplanetPos=(int)curPlanet.getPosition().getY()+Constants.screenY/2;
 	            initXpos=e.getX();
 	            initYpos=e.getY();
             }
@@ -209,8 +211,8 @@ public class SimulationUI extends JPanel{
         	if(curPlanet!=null){
                 Position pos=curPlanet.getPosition();
                 System.out.println("dragging");
-                pos.setX(e.getX()-initXpos+XplanetPos);
-                pos.setY(e.getY()-initYpos+YplanetPos);
+                pos.setX(e.getX()-initXpos+XplanetPos-Constants.screenX/2);
+                pos.setY(e.getY()-initYpos+YplanetPos-Constants.screenY/2);
         	}
         }
         @Override
@@ -219,7 +221,13 @@ public class SimulationUI extends JPanel{
             
         }
         public boolean inCircle(int circleX, int circleY, int clickX, int clickY, int radius){
-            return java.lang.Math.pow((circleX+radius - clickX),2) + java.lang.Math.pow((circleY+radius -clickY),2) < java.lang.Math.pow(radius,2);
+        	System.out.printf("circle x: %d, circle y: %d, click x: %d, click y: %d\n", circleX, circleY, clickX, clickY);
+        	if(circleX-radius<=clickX && circleX+radius>=circleX 
+        			&& circleY-radius<=clickY && circleY+radius>=clickY){
+        		return true;
+        	}else{
+        		return false;
+        	}
         }
 	}
 }

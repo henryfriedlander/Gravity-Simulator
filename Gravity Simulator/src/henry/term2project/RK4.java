@@ -1,7 +1,7 @@
 package henry.term2project;
 
 public class RK4 {
-        public static double[] step(double[]x, double dt){
+        public double[] step(double[]x, double dt, Kepler k){
             int n=x.length;
             double[]f=new double[n];
             double[]k1=new double[n];
@@ -9,22 +9,22 @@ public class RK4 {
             double[]k3=new double[n];
             double[]k4=new double[n];
             double[]x_temp=new double[n];
-            f = Kepler.equations(x);
+            f = k.equations(x);
             for (int i = 0; i < n; i++) {
                 k1[i] = dt * f[i];
                 x_temp[i] = x[i] + k1[i] / 2;
             }
-            f = Kepler.equations(x_temp);
+            f = k.equations(x_temp);
             for (int i = 0; i < n; i++) {
                 k2[i] = dt * f[i];
                 x_temp[i] = x[i] + k2[i] / 2;
             }
-            f = Kepler.equations(x_temp);
+            f = k.equations(x_temp);
             for (int i = 0; i < n; i++) {
                 k3[i] = dt * f[i];
                 x_temp[i] = x[i] + k3[i];
             }
-            f = Kepler.equations(x_temp);
+            f = k.equations(x_temp);
             for (int i = 0; i < n; i++)
                 k4[i] = dt * f[i];
             for (int i = 0; i < n; i++)

@@ -9,6 +9,7 @@ public class Planet implements Agent{
 	Position p;
 	Simulation g;
 	ArrayList<Point>points=new ArrayList<Point>();
+	Kepler k;
 
     final static double pi=Math.PI;
     final static double G_m1_plus_m2 = 4 * pi * pi;
@@ -18,6 +19,7 @@ public class Planet implements Agent{
 		p=new Position(xPos,yPos,xVel,yVel);
 		g=c;
 		System.out.println(p.toString());
+		k=new Kepler(g);
 	}
 	public double dist(Agent p1){
 		return Math.sqrt(Math.pow(p.getX()-p1.getPosition().getX(),2)+Math.pow(p.getY()-p1.getPosition().getY(),2));
@@ -47,14 +49,6 @@ public class Planet implements Agent{
     }
     @Override
     public void timeStep(Simulation s){
-        int n=5;
-        double[]f=new double[n];
-        double[]k1=new double[n];
-        double[]k2=new double[n];
-        double[]k3=new double[n];
-        double[]k4=new double[n];
-        double[]x_temp=new double[n];
-        
         double[]x=new double[5];
         double dt=0.1;
         x[0]=0;
@@ -62,7 +56,7 @@ public class Planet implements Agent{
         x[2]=p.getY();
         x[3]=p.getxVel();
         x[4]=p.getyVel();
-        x = Kepler.step(x, dt);
+        x = k.step(x, dt);
 //        f = equations(x);
 //        for (int i = 0; i < n; i++) {
 //            k1[i] = dt * f[i];
