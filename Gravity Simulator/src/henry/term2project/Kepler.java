@@ -52,13 +52,14 @@ public class Kepler {
     public static void integrate(double[]trv,double dt,double t_max, double accuracy){
 
         while (true) {
-            double y_save = trv[2];
-            step(trv, dt);
-            double t = trv[0], x = trv[1], y = trv[2], vx = trv[3], vy = trv[4];
-            if (x > 0 && y * y_save < 0) {
-                step(trv, -y);
-                break;
-            }
+        	trv = step(trv, dt);
+//            double y_save = trv[2];
+//            step(trv, dt);
+//            double t = trv[0], x = trv[1], y = trv[2], vx = trv[3], vy = trv[4];
+//            if (x > 0 && y * y_save < 0) {
+//                step(trv, -y);
+//                break;
+//            }
         }
     }
     public static void main(String[]args){

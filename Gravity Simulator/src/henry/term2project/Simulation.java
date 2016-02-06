@@ -19,19 +19,27 @@ public class Simulation extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static  ArrayList<Agent>planets=new ArrayList<Agent>();
+	public ArrayList<Agent>planets=new ArrayList<Agent>();
 
-    final static double pi=Math.PI;
-    final static double G_m1_plus_m2 = 4 * pi * pi;
-    private double dt;
-	
+	private static final double G_m1_plus_m2 = 4.0 * Math.PI * Math.PI;
 	public Simulation() {
-		this.dt=0.1;
-		double r_aphelion=100,eccentricity=0.0167;
-		double a=r_aphelion / (1 + eccentricity);
-		double T=Math.pow(a, 1.5);
-		double vy = Math.sqrt(G_m1_plus_m2*(2.0 / r_aphelion - 1.0/a));
-	planets.add(new Planet(1000,r_aphelion,0,0,vy,this));
+		restart();
+	}
+	public void restart(){
+		double r_a = 100;
+		double eccentricity = .3;
+		double a = r_a / (1 + eccentricity);
+		double vy0 = Math.sqrt(G_m1_plus_m2 * (2.0 / r_a - 1.0 / a));
+		
+		
+
+		double r_a1 = 150;
+		double eccentricity1 = .3;
+		double a1 = r_a / (1 + eccentricity1);
+		double vy01 = Math.sqrt(G_m1_plus_m2 * (2.0 / r_a - 1.0 / a1));
+		planets.removeAll(planets);
+		planets.add(new Planet(1000, r_a, 0, 0, vy0, this));
+		planets.add(new Planet(1000, r_a1, 0, 0, vy01, this));
 	}
 	public void takeSteps(){
 		for(Agent p:planets){

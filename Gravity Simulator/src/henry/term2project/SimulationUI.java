@@ -28,25 +28,25 @@ public class SimulationUI extends JPanel{
 	private static final long serialVersionUID = -5659010045381897708L;
 	private static final String START_BUTTON = "Start";
     private static final String STOP_BUTTON = "Stop";
-    private static final String STEP_BUTTON = "Step";
+    private static final String RESTART_BUTTON = "Restart";
 
     private final Simulation world;
     private final JFrame frame;
 
     private final WorldPanel worldPanel;
-    private final JButton stepButton;
+    private final JButton restartButton;
     private final JButton runButton;
 
 	public SimulationUI(Simulation s){
 		world=s;
 		worldPanel=new WorldPanel();
 		runButton = new JButton(START_BUTTON);
-        stepButton = new JButton(STEP_BUTTON);
+        restartButton = new JButton(RESTART_BUTTON);
 		
 
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.add(runButton, BorderLayout.WEST);
-        bottom.add(stepButton, BorderLayout.EAST);
+        bottom.add(restartButton, BorderLayout.EAST);
         
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,22 +60,26 @@ public class SimulationUI extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 if (toggle) {
                     worldPanel.start();
-                    stepButton.setEnabled(false);
                     runButton.setText(STOP_BUTTON);
                 } else {
                     worldPanel.stop();
-                    stepButton.setEnabled(true);
                     runButton.setText(START_BUTTON);
                 }
                 toggle = !toggle;
             }
         });
-
+		restartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                world.restart();
+                worldPanel.start();
+                worldPanel.stop();
+            }
+        });
 		Container pane = frame.getContentPane();
         pane.add(worldPanel, BorderLayout.CENTER);
         pane.add(bottom, BorderLayout.SOUTH);
         
-		frame.pack();
 	}
 	public void show() {
         frame.setVisible(true);
@@ -90,7 +94,7 @@ public class SimulationUI extends JPanel{
 		 * 
 		 */
 		private static final long serialVersionUID = 3983835989954582924L;
-		private static final int RUN_SPEED = 100;
+		private static final int RUN_SPEED = 0;
 		private final Timer timer;
 		private boolean mouseClicked=false;
 		private Agent curPlanet;
@@ -116,9 +120,9 @@ public class SimulationUI extends JPanel{
 			g.setRenderingHint(
 			        RenderingHints.KEY_ANTIALIASING,
 			        RenderingHints.VALUE_ANTIALIAS_ON);
-			g.setColor(Color.white);
+			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 1000, 1000);
-			g.setColor(Color.black);
+			g.setColor(Color.BLUE);
 			System.out.println(world.getPlanets().size());
 			for(Agent p:world.getPlanets()){
 				Position pos=p.getPosition();
@@ -146,7 +150,7 @@ public class SimulationUI extends JPanel{
 	    public void drawCircle(double x,double y,double r, Graphics2D g){
 	        x = x-r;
 	        y = y-r;
-	        g.drawOval((int)x,(int)y,(int)(2*r),(int)(2*r));
+	        g.fillOval((int)x,(int)y,(int)(2*r),(int)(2*r));
 	    }
 	    public void start(){
 	    	timer.start();
@@ -157,12 +161,6 @@ public class SimulationUI extends JPanel{
 	    public void step(){
 	    	System.out.println("STEP");
 	    	world.takeSteps();
-	    	try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	    	repaint();
 	    }
         @Override
