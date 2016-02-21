@@ -15,4 +15,6 @@ public interface Agent {
 	Position getPosition();
 
 	void addPoint(Point point);
+	
+	double dist(Agent a);
 }

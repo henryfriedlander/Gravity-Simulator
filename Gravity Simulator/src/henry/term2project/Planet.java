@@ -12,7 +12,6 @@ public class Planet implements Agent{
 	Kepler k;
 
     final static double pi=Math.PI;
-    final static double G_m1_plus_m2 = 4 * pi * pi;
 
 	public Planet(double mass, double xPos, double yPos, double xVel, double yVel, Simulation c) {
 		this.mass=mass;
@@ -21,6 +20,9 @@ public class Planet implements Agent{
 		System.out.println(p.toString());
 		k=new Kepler(g);
 	}
+	
+	
+	@Override
 	public double dist(Agent p1){
 		return Math.sqrt(Math.pow(p.getX()-p1.getPosition().getX(),2)+Math.pow(p.getY()-p1.getPosition().getY(),2));
 	}
@@ -33,20 +35,6 @@ public class Planet implements Agent{
 	public void addPoint(Point p){
 		points.add(p);
 	}
-    //Derivative Array For Newton's law of gravitation
-    public double[] equations(double[]trv){
-        double t = trv[0], x = p.getX(), y = p.getY(), vx = p.getxVel(), vy = p.getyVel();
-        double r = Math.sqrt(x*x + y*y);
-        double ax = - G_m1_plus_m2 * x / (r*r*r);
-        double ay = - G_m1_plus_m2 * y / (r*r*r);
-        double[]flow=new double[5];
-        flow[0] = 1;
-        flow[1] = vx;
-        flow[2] = vy;
-        flow[3] = ax;
-        flow[4] = ay;
-        return flow;
-    }
     @Override
     public void timeStep(Simulation s){
         double[]x=new double[5];
@@ -56,28 +44,7 @@ public class Planet implements Agent{
         x[2]=p.getY();
         x[3]=p.getxVel();
         x[4]=p.getyVel();
-        x = k.step(x, dt);
-//        f = equations(x);
-//        for (int i = 0; i < n; i++) {
-//            k1[i] = dt * f[i];
-//            x_temp[i] = x[i] + k1[i] / 2;
-//        }
-//        f = equations(x_temp);
-//        for (int i = 0; i < n; i++) {
-//            k2[i] = dt * f[i];
-//            x_temp[i] = x[i] + k2[i] / 2;
-//        }
-//        f = equations(x_temp);
-//        for (int i = 0; i < n; i++) {
-//            k3[i] = dt * f[i];
-//            x_temp[i] = x[i] + k3[i];
-//        }
-//        f = equations(x_temp);
-//        for (int i = 0; i < n; i++)
-//            k4[i] = dt * f[i];
-//        for (int i = 0; i < n; i++)
-//            x[i] += (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]) / 6;
-//        //x[0]=time???
+        x = k.step(x, dt,this);
         p.setX(x[1]);
         p.setY(x[2]);
         p.setxVel(x[3]);

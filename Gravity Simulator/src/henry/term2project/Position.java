@@ -1,15 +1,12 @@
 package henry.term2project;
 
 public class Position {
-	double x;
-	double y;
-	double z;
-	double xVel;
-	double yVel;
-	double zVel;
-	double xAccel;
-	double yAccel;
-	double zAccel;
+	private double x;
+	private double y;
+	private double z;
+	private double xVel;
+	private double yVel;
+	private double zVel;
 	
 	public Position(double x, double y, double xVel, double yVel){
 		this.x=x;

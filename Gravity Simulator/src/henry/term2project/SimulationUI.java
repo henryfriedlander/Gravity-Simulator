@@ -76,6 +76,7 @@ public class SimulationUI extends JPanel{
                 worldPanel.stop();
             }
         });
+		
 		Container pane = frame.getContentPane();
         pane.add(worldPanel, BorderLayout.CENTER);
         pane.add(bottom, BorderLayout.SOUTH);
@@ -103,7 +104,6 @@ public class SimulationUI extends JPanel{
 		private int XplanetPos;
 		private int YplanetPos;
 		public WorldPanel(){
-			System.out.println("HI");
 			timer = new Timer(RUN_SPEED, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -123,14 +123,13 @@ public class SimulationUI extends JPanel{
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 1000, 1000);
 			g.setColor(Color.BLUE);
-			System.out.println(world.getPlanets().size());
 			for(Agent p:world.getPlanets()){
 				Position pos=p.getPosition();
 				drawPlanet(pos,g);
 				drawTrails(p,g);
 				p.addPoint(new Point((int)pos.getX()+Constants.screenX/2,(int)pos.getY()+Constants.screenY/2));
 			}
-			g.drawOval(Constants.screenX/2,Constants.screenY/2,1,1);
+			//drawCircle(Constants.screenX/2,Constants.screenY/2,15,g);
 			
 			g.setColor(Color.red);
 			Point2D.Double com=world.getCOM();
@@ -159,8 +158,7 @@ public class SimulationUI extends JPanel{
 	    	timer.stop();
 	    }
 	    public void step(){
-	    	System.out.println("STEP");
-	    	world.takeSteps();
+	    	world.takeSteps(5);
 	    	repaint();
 	    }
         @Override
